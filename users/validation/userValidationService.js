@@ -1,4 +1,4 @@
-const registerValidation = require("./Joi/registerValidation");
+const registerValidation = require("./joi/registerValidation");
 const loginValidation = require("./Joi/loginValidation");
 
 const config = require("config");
