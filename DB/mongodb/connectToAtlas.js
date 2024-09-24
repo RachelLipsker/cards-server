@@ -8,6 +8,8 @@ const connectToAtlaslDb = async () => {
         await mongoose.connect(connectionStringForAtlas);
         console.log("Connected to MongoDB");
     } catch (error) {
+        console.log("Could not connect to MongoDB Atlas");
+
         console.error("Could not connect to MongoDB", error);
     }
 };
