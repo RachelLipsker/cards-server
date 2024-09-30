@@ -67,13 +67,13 @@ router.put("/:id", auth, async (req, res) => {
         const newUser = req.body;
         const { id } = req.params;
         const fullUserFromDb = await getUser(id);
-        if (userInfo._id != fullUserFromDb.user_id) {
-            return handleError(
-                res,
-                403,
-                "Authorization Error: Only the user who created the business card or admin can update its details"
-            );
-        }
+        // if (userInfo._id != fullUserFromDb.user_id) {
+        //     return handleError(
+        //         res,
+        //         403,
+        //         "Authorization Error: Only the user who created the business card or admin can update its details"
+        //     );
+        // }
 
         const errorMessage = editValidation(newUser);
         if (errorMessage !== "") {
