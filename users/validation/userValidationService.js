@@ -2,6 +2,7 @@ const registerValidation = require("./joi/registerValidation");
 const loginValidation = require("./joi/loginValidation");
 
 const config = require("config");
+const editValidation = require("./joi/editValidation");
 const validator = config.get("VALIDATOR");
 
 const validateRegistration = (user) => {
@@ -20,5 +21,15 @@ const validateLogin = (user) => {
     }
 };
 
+
+const validateEdit = (user) => {
+    if (validator === "joi") {
+        const { error } = editValidation(user);
+        if (error) return error.details[0].message;
+        return "";
+    }
+};
+
 exports.validateRegistration = validateRegistration;
 exports.validateLogin = validateLogin;
+exports.validateEdit = validateEdit;

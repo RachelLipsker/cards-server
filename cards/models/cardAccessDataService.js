@@ -76,7 +76,6 @@ const likeCard = async (cardId, userId) => {
         try {
             let card = await Card.findById(cardId);
             if (!card)
-                //throw new Error("A card with this ID cannot be found in the database");
                 createError("mongoose", new Error("A card with this ID cannot be found in the database"));
 
             if (card.likes.includes(userId)) {

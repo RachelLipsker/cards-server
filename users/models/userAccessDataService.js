@@ -72,4 +72,29 @@ const updateUser = async (userId, newUser) => {
     }
 };
 
-module.exports = { registerUser, getUser, getUsers, loginUser, updateUser };
+const statusUser = async (userId) => {
+    if (DB == "mongodb") {
+        try {
+            let user = await User.findById(userId);
+            user.isBusiness = !user.isBusiness;
+            await user.save();
+            return user;
+        } catch (error) {
+            createError("Mongoose", error);
+        }
+    }
+};
+
+
+const deleteUser = async (userId) => {
+    if (DB == "mongodb") {
+        try {
+            let user = await User.findByIdAndDelete(userId);
+            return user;
+        } catch (error) {
+            createError("Mongoose", error);
+        }
+    }
+};
+
+module.exports = { registerUser, getUser, getUsers, loginUser, updateUser, statusUser, deleteUser };
