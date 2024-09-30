@@ -1,8 +1,9 @@
 const express = require("express");
-const { registerUser, getUser, getUsers, loginUser } = require("../models/userAccessDataService");
+const { registerUser, getUser, getUsers, loginUser, updateUser } = require("../models/userAccessDataService");
 const auth = require("../../auth/authService");
 const { handleError } = require("../../utils/handleErrors");
 const { validateRegistration, validateLogin } = require("../validation/userValidationService");
+const editValidation = require("../validation/joi/editValidation");
 
 const router = express.Router();
 
@@ -31,12 +32,12 @@ router.post("/login", async (req, res) => {
     }
 });
 
-router.get("/", /*auth,*/ async (req, res) => {
+router.get("/", auth, async (req, res) => {
     try {
-        // const userInfo = req.user;
-        // if (!userInfo.isAdmin) {
-        //     return handleError(res, 403, "Authorization Error: Only admin can see all users");
-        // }
+        const userInfo = req.user;
+        if (!userInfo.isAdmin) {
+            return handleError(res, 403, "Authorization Error: Only admin can see all users");
+        }
         let users = await getUsers();
         res.send(users);
     } catch (error) {
@@ -58,31 +59,33 @@ router.get("/:id", auth, async (req, res) => {
     }
 });
 
-// router.put("/:id", auth, async (req, res) => {
-//     try {
-//         const userInfo = req.user;
-//         const newCard = req.body;
-//         const { id } = req.params;
-//         const fullUserFromDb = await getUser(id);
-//         if (userInfo._id != fullUserFromDb.user_id && !userInfo.isAdmin) {
-//             return handleError(
-//                 res,
-//                 403,
-//                 "Authorization Error: Only the user who created the business card or admin can update its details"
-//             );
-//         }
 
-//         const errorMessage = validateCard(newCard);
-//         if (errorMessage !== "") {
-//             return handleError(res, 400, "Validation error: " + errorMessage);
-//         }
 
-//         let card = await normalizeCard(newCard, userInfo._id);
-//         card = await updateCard(id, card);
-//         res.send(card);
-//     } catch (error) {
-//         handleError(res, error.status || 400, error.message);
-//     }
-// });
+router.put("/:id", auth, async (req, res) => {
+    try {
+        const userInfo = req.user;
+        const newUser = req.body;
+        const { id } = req.params;
+        const fullUserFromDb = await getUser(id);
+        if (userInfo._id != fullUserFromDb.user_id) {
+            return handleError(
+                res,
+                403,
+                "Authorization Error: Only the user who created the business card or admin can update its details"
+            );
+        }
+
+        const errorMessage = editValidation(newUser);
+        if (errorMessage !== "") {
+            return handleError(res, 400, "Validation error: " + errorMessage);
+        }
+
+        //let card = await normalizeCard(newCard, userInfo._id);
+        let user = await updateUser(id, newUser);
+        res.send(user);
+    } catch (error) {
+        handleError(res, error.status || 400, error.message);
+    }
+});
 
 module.exports = router;

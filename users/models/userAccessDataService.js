@@ -61,4 +61,15 @@ const getUsers = async () => {
     }
 };
 
-module.exports = { registerUser, getUser, getUsers, loginUser };
+const updateUser = async (userId, newUser) => {
+    if (DB == "mongodb") {
+        try {
+            let user = await User.findByIdAndUpdate(userId, newUser, { new: true });
+            return user;
+        } catch (error) {
+            createError("Mongoose", error);
+        }
+    }
+};
+
+module.exports = { registerUser, getUser, getUsers, loginUser, updateUser };
