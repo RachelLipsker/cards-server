@@ -1,5 +1,5 @@
 const express = require("express");
-const { createCard, getCards, getCard, getMyCards, updateCard, deleteCard, likeCard } = require("../models/cardAccessDataService");
+const { createCard, getCards, getCard, getMyCards, updateCard, deleteCard, likeCard, changeBizNumber } = require("../models/cardAccessDataService");
 const auth = require("../../auth/authService");
 const { normalizeCard } = require("../helpers/normalizeCard");
 const { handleError } = require("../../utils/handleErrors");
@@ -63,6 +63,26 @@ router.put("/:id", auth, async (req, res) => {
         res.send(card);
     } catch (error) {
         handleError(res, error.status || 400, error.message);
+    }
+});
+
+
+router.patch("/:id/bizNumber", auth, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const userInfo = req.user;
+        const bizNumber = req.body.bizNumber;
+        if (!userInfo.isAdmin) {
+            return handleError(
+                res,
+                403,
+                "Authorization Error: Only asmin can change biznumber"
+            );
+        }
+        let card = await changeBizNumber(id, bizNumber);
+        res.send(card);
+    } catch (error) {
+        handleError(res, 400, error.message);
     }
 });
 

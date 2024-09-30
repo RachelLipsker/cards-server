@@ -5,6 +5,7 @@ const router = require("./router/router");
 const corsMiddleware = require("./middlewares/cors");
 const { handleError } = require("./utils/handleErrors");
 const loggerMiddleware = require("./logger/loggerService");
+const insertInitialData = require("./helpers/utils/initialData");
 require("dotenv").config();
 
 const app = express();
@@ -26,4 +27,5 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
     console.log(chalk.yellow("server is listening to port 8080"));
     connectToDb();
+    insertInitialData();
 });

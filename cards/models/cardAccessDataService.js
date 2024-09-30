@@ -1,4 +1,5 @@
 const { createError } = require("../../utils/handleErrors");
+const { isBizNumberExists } = require("../helpers/generateBizNumber");
 const Card = require("./mongodb/Card");
 const config = require("config");
 const DB = config.get("DB");
@@ -91,4 +92,19 @@ const likeCard = async (cardId, userId) => {
         }
     }
 };
-module.exports = { createCard, getCards, getCard, getMyCards, updateCard, deleteCard, likeCard };
+
+const changeBizNumber = async (cardId, bizNumber) => {
+    if (DB == "mongodb") {
+        try {
+            if (await isBizNumberExists(bizNumber)) {
+                return createError("biznumber", new Error("this biznumber exists"))
+            }
+            let card = await Card.findByIdAndUpdate(cardId, { bizNumber });
+            return card;
+        } catch (error) {
+            createError("mongoose", error);
+        }
+    }
+}
+
+module.exports = { createCard, getCards, getCard, getMyCards, updateCard, deleteCard, likeCard, changeBizNumber };
