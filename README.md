@@ -50,8 +50,8 @@ To run the project in different environments, use the following commands:
 ## API Documentation
 You can find the API documentation for the Users and Cards endpoints here:
 
-- Users: Postman Documentation
-- Cards: Postman Documentation
+- Users: [Postman Documentation](https://documenter.getpostman.com/view/38195820/2sAXxJhaNU)
+- Cards: [Postman Documentation](https://documenter.getpostman.com/view/38195820/2sAXxJhudE)
 
 
 
