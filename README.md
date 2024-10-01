@@ -12,11 +12,11 @@ This project is a REST API that allows performing CRUD operations for users and 
 
 ## Libraries Used
 - **express**: For building the server.
-- - **mongoose**: For connecting to the MongoDB database.
-- - **cors**: For enabling Cross-Origin Resource Sharing.
-- - **jsonwebtoken**: For creating and verifying JSON Web Tokens.
+-  **mongoose**: For connecting to the MongoDB database.
+-  **cors**: For enabling Cross-Origin Resource Sharing.
+-  **jsonwebtoken**: For creating and verifying JSON Web Tokens.
 - **bcryptjs**: For encrypting user passwords.
-- - **joi**: For validation of user input.
+-  **joi**: For validation of user input.
 - **chalk**: For coloring console prints.
 - **config**: For configuration management.
 - **cross-env**: For setting environment variables across platforms.
@@ -36,18 +36,22 @@ To get started with this project, follow these steps:
    
 ## Environment Variables
 In the main folder, create a .env file with the following variables:
---JWT_SECRET: Your secret key for creating JSON Web Tokens.
---ATLAS_CONNECTION_STRING: Your connection string to the MongoDB Atlas database.
+- JWT_SECRET: Your secret key for creating JSON Web Tokens.
+- ATLAS_CONNECTION_STRING: Your connection string to the MongoDB Atlas database.
 
 ## Running the Project
 To run the project in different environments, use the following commands:
-For local development:
-```bash
-npm run dev
+1. For local development:
+   ```bash
+   npm run dev
+2. For production (with the MongoDB Atlas database):
+   ```bash
+   npm start    
+## API Documentation
+You can find the API documentation for the Users and Cards endpoints here:
 
-For production (with the MongoDB Atlas database):
-```bash
-npm start
+- Users: Postman Documentation
+- Cards: Postman Documentation
 
 
 
