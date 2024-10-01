@@ -6,7 +6,7 @@ const { handleError } = require("../../utils/handleErrors");
 const validateCard = require("../validation/cardValidationService");
 
 const router = express.Router();
-
+//t
 router.get("/", async (req, res) => {
     try {
         let cards = await getCards();
