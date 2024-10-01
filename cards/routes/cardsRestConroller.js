@@ -67,7 +67,7 @@ router.put("/:id", auth, async (req, res) => {
 });
 
 
-router.patch("/:id/bizNumber", auth, async (req, res) => {
+router.patch("/bizNumber/:id", auth, async (req, res) => {
     try {
         const { id } = req.params;
         const userInfo = req.user;
@@ -76,7 +76,7 @@ router.patch("/:id/bizNumber", auth, async (req, res) => {
             return handleError(
                 res,
                 403,
-                "Authorization Error: Only asmin can change biznumber"
+                "Authorization Error: Only admin can change biznumber"
             );
         }
         let card = await changeBizNumber(id, bizNumber);

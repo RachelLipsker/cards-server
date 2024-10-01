@@ -99,7 +99,9 @@ const changeBizNumber = async (cardId, bizNumber) => {
             if (await isBizNumberExists(bizNumber)) {
                 return createError("biznumber", new Error("this biznumber exists"))
             }
-            let card = await Card.findByIdAndUpdate(cardId, { bizNumber });
+            let card = await Card.findById(cardId);
+            card.bizNumber = bizNumber;
+            card.save();
             return card;
         } catch (error) {
             createError("mongoose", error);
