@@ -1,4 +1,5 @@
 const Card = require("../../cards/models/mongodb/Card");
+const { generateUserPassword } = require("../../users/helpers/bcrypt");
 const User = require("../../users/models/mongodb/User")
 
 const initialUsers = [
@@ -10,7 +11,7 @@ const initialUsers = [
         },
         phone: "0512345567",
         email: "ellvis@email.com",
-        password: "Abc123456!",
+        password: generateUserPassword("Abc123456!"),
         image: {
             url: "",
             alt: "umage"
@@ -33,7 +34,7 @@ const initialUsers = [
         },
         phone: "0512345568",
         email: "avi12345@email.com",
-        password: "Abc123456!",
+        password: generateUserPassword("Abc123456!"),
         image: {
             url: "",
             alt: "image"
@@ -56,7 +57,7 @@ const initialUsers = [
         },
         phone: "0512345569",
         email: "moshe123770@email.com",
-        password: "Abc123456!",
+        password: generateUserPassword("Abc123456!"),
         image: {
             url: "",
             alt: "image"
@@ -94,7 +95,7 @@ const initialCards = [{
         zip: 0,
     },
     bizNumber: 3305967,
-    user_id: "6376274068d78742d84f31d2",
+    user_id: "670241b0b43aa56d86f087f5",
 },
 {
     title: "inon genish",
@@ -117,7 +118,7 @@ const initialCards = [{
     },
     bizNumber: 8625120,
     "likes": [],
-    user_id: "653a486f069edbb3cf01545d",
+    user_id: "670241b0b43aa56d86f087f1",
 },
 {
     title: "new",
@@ -140,18 +141,22 @@ const initialCards = [{
     },
     bizNumber: 8232356,
     "likes": [],
-    user_id: "65435ac4cb6bcb58697baf6c",
+    user_id: "670241b0b43aa56d86f087f5",
 },]
 
 const insertInitialData = async () => {
     const countUsers = await User.countDocuments();
-    if (countUsers == 0) {
+    if (countUsers < 3) {
         await User.insertMany(initialUsers);
+        console.log("initial users inserted");
+
     }
 
     const countCards = await Card.countDocuments();
-    if (countCards == 0) {
+    if (countCards < 3) {
         await Card.insertMany(initialCards);
+        console.log("initial cards inserted");
+
     }
 }
 
