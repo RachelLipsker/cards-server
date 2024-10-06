@@ -7,6 +7,8 @@ const { handleError } = require("./utils/handleErrors");
 const loggerMiddleware = require("./logger/loggerService");
 const insertInitialData = require("./helpers/utils/initialData");
 require("dotenv").config();
+const config = require("config");
+const ENVIRONMENT = config.get("ENVIRONMENT");
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -25,7 +27,9 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(PORT, () => {
-    console.log(chalk.yellow("server is listening to port 8080"));
+    console.log(chalk.yellow("server is listening to port " + PORT));
     connectToDb();
-    insertInitialData();
+    if (ENVIRONMENT == "development") {
+        insertInitialData();
+    }
 });
